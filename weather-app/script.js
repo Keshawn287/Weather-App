@@ -1,8 +1,8 @@
 "use strict";
 // API key and base URL for OpenWeatherMap API
 const apiKey = "efe3512d9c30f6cf91829a8d08d60793";
-const apiUrl =
-  "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+// const apiUrl =
+//   "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
 
 // Selecting DOM elements...set up as classes so using querySelector is better
 const searchBar = document.querySelector(".search-bar input");
@@ -21,7 +21,7 @@ searchBar.addEventListener("keyup", (event) => {
   if (event.key === "Enter") {
     const userInput = searchBar.value.trim();
     if (!userInput) return; //if empty input, do nothing
-    const city = encodeURIComponent(raw);
+    const city = encodeURIComponent(userInput);
     //fetch weather data from API
     getWeatherDataByCity(city); //function declarations can be called before they are defined
   }
@@ -44,6 +44,57 @@ async function getWeatherDataByCity(city) {
     alert(err.message);
   }
 }
+// Function to get forcast from lat and lon values
+async function getWeatherDataByCoords(lat, lon, meta = {}) {
+  try {
+    const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+    const res = await fetch(url);
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data?.message || "Failed to fetch forecast");
+    }
+    updateWeatherFromForcast(data, meta.displayName);
+  } catch (err) {
+    alert(`Error: ${err.message}`);
+  }
+}
+//Update forcast for user in UI
+function updateWeatherFromForcast(forecast, overrideCityName) {
+  // forecast.city = { name, timezone, coord:{lat,lon}, ... }
+  // forecast.list = [ { dt, main:{temp, feels_like, pressure, humidity}, weather:[{description, icon}], wind:{speed}, dt_txt }, ... ]
+
+  const slot = forecast.list?.[0];
+  if (!slot) {
+    alert("No forecast data available");
+    return;
+  }
+  const cityName = overrideCityName || forecast.city?.name || "Unknown";
+  const tzOffsetSec = forecast.city?.timezone ?? 0; // seconds offset from UTC
+  const localTsMs = (slot.dt + tzOffsetSec) * 1000;
+  const localTime = new Date(localTsMs).toLocaleString();
+
+  cityElement.textContent = `Forecast for ${cityName}`;
+  tempElement.textContent = `${Math.round(slot.main.temp)}°C`;
+  descElement.textContent = `Description: ${
+    slot.weather?.[0]?.description ?? "--"
+  }`;
+  timeElement.textContent = `Local Time: ${localTime}`;
+  humidityElement.textContent = `Humidity: ${slot.main.humidity}%`;
+  feelsLikeElement.textContent = `Feels Like: ${Math.round(
+    slot.main.feels_like
+  )}°C`;
+  windSpeedElement.textContent = `Wind Speed: ${slot.wind?.speed ?? "--"} m/s`;
+  pressureElement.textContent = `Pressure: ${slot.main.pressure} hPa`;
+
+  if (weatherIcon && slot.weather?.[0]?.icon) {
+    weatherIcon.src = `https://openweathermap.org/img/wn/${slot.weather[0].icon}@2x.png`;
+    weatherIcon.alt = slot.weather[0].description || "Weather icon";
+  }
+}
+
+getWeatherDataByCoords(33.749, -84.388, { displayName: "Atlanta, GA" });
+
 //https://api.openweathermap.org/data/3.0/onecall?lat=33.749&lon=-84.388&appid=fc24932d04f9bbc4df5b13f6d0f7268e
 
 //https://api.openweathermap.org/data/3.0/onecall?lat=33.749&lon=-84.388&appid=fc24932d04f9bbc4df5b13f6d0f7268e
