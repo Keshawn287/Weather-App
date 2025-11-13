@@ -1,10 +1,7 @@
 "use strict";
 // API key and base URL for OpenWeatherMap API
-const apiKey = "efe3512d9c30f6cf91829a8d08d60793";
-// const apiUrl =
-//   "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+const apiKey = "API_KEY_HERE";
 
-// Selecting DOM elements...set up as classes so using querySelector is better
 const searchBar = document.querySelector(".search-bar input");
 const cityElement = document.querySelector(".city");
 const tempElement = document.querySelector(".temp");
@@ -94,8 +91,3 @@ function updateWeatherFromForcast(forecast, overrideCityName) {
 }
 
 getWeatherDataByCoords(33.749, -84.388, { displayName: "Atlanta, GA" });
-
-//https://api.openweathermap.org/data/3.0/onecall?lat=33.749&lon=-84.388&appid=fc24932d04f9bbc4df5b13f6d0f7268e
-
-//https://api.openweathermap.org/data/3.0/onecall?lat=33.749&lon=-84.388&appid=fc24932d04f9bbc4df5b13f6d0f7268e
-//https://api.openweathermap.org/data/2.5/forecast?lat=33.749&lon=-84.388&appid=fc24932d04f9bbc4df5b13f6d0f7268e&units=metric
