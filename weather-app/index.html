@@ -4,29 +4,56 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.10/css/weather-icons.min.css"
+    />
     <title>Weather App</title>
   </head>
   <body>
     <div class="container">
       <header class="header">
         <div div class="search-bar">
-          <input type="Search" placeholder="🔍 Enter city name" />
+          <input type="Search" placeholder="Enter city name" />
         </div>
       </header>
       <main>
         <div class="weather-info-container">
           <div class="weather-grid">
-            <article class="weather-card"></article>
-            <article class="weather-card"></article>
+            <article class="weather-card left-card">
+              <h2 class="city"></h2>
+              <img src="" alt="Weather Icon" class="weather-icon" />
+              <p class="description"></p>
+            </article>
+
+            <!-- Flexbox styling inside of this card would probably work best here -->
+            <article class="weather-card right-card">
+              <div class="left-side-of-right-card">
+                <p class="temp"></p>
+              </div>
+              <div class="right-side-of-right-card">
+                <p class="feels-like"><em>temp</em></p>
+                <p class="time"></p>
+                <p class="date"></p>
+              </div>
+            </article>
           </div>
         </div>
 
         <div class="weather-misc-container">
           <div class="weather-misc-grid">
-            <article class="weather-misc-card"></article>
-            <article class="weather-misc-card"></article>
-            <article class="weather-misc-card"></article>
-            <article class="weather-misc-card"></article>
+            <article class="weather-misc-card">
+              <p class="high-low"></p>
+            </article>
+            <article class="weather-misc-card">
+              <p class="rain"></p>
+            </article>
+            <article class="weather-misc-card">
+              <p class="humidity"></p>
+            </article>
+            <article class="weather-misc-card">
+              <p class="wind-speed"></p>
+            </article>
           </div>
         </div>
 
@@ -36,33 +63,10 @@
             <article class="weather-future-card"></article>
             <article class="weather-future-card"></article>
             <article class="weather-future-card"></article>
-            <article class="weather-future-card"></article>
           </div>
         </div>
       </main>
     </div>
-    <!-- <div class="container"></div>
-    <header class="header"></header>
-
-    <div class="search-bar">
-      <input type="Search" placeholder="🔍 Enter city name" />
-
-      <div class="weather-info">
-        <h2 class="city"></h2>
-        <img src="" alt="Weather Icon" class="weather-icon" />
-        <p class="description"></p>
-
-        <p class="temp"></p>
-
-        <p class="feels-like"></p>
-        <p class="time"></p>
-        <p class="date"></p>
-
-        <p class="humidity"></p>
-        <p class="wind-speed"></p>
-        <p class="pressure"></p>
-      </div>
-    </div> -->
     <script src="script.js"></script>
   </body>
 </html>
